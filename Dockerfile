@@ -9,8 +9,8 @@ FROM scratch
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 ADD /config/fullhouse-default.yaml /app/config/
-ADD /full-house /app/
-ADD /frontend/dist /app/frontend
+ADD ./ /app/
+ADD ./frontend/dist /app/frontend
 
 WORKDIR /app
 

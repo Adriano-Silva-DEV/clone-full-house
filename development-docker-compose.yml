@@ -1,0 +1,74 @@
+version: "3.3"
+
+
+services:
+
+  api:
+    image: apiroteirizador:latest
+    ports:
+    - "5000:5000"
+    build: 
+      context: .
+      dockerfile: ./Docker/Desenvolvimento/Api.Dockerfile
+    networks:
+      api-roteirizador-network:
+            ipv4_address: 172.20.0.100
+    
+    depends_on:
+      - "grpcpelias"
+
+
+  grpcpelias:
+    image: grpcpeliasimage:latest
+    ports:
+    - "5010:5010"
+    build: 
+      context: .
+      dockerfile: ./Docker/Desenvolvimento/Grpc.Pelias.Dockerfile
+    networks: 
+       api-roteirizador-network:
+           ipv4_address: 172.20.0.10
+
+  grpcgoogle:
+    image: grpcgoogleimage:latest
+    ports:
+    - "5008:5008"
+    build: 
+      context: .
+      dockerfile: ./Docker/Desenvolvimento/Grpc.Google.Dockerfile
+    networks: 
+       api-roteirizador-network:
+           ipv4_address: 172.20.0.8
+
+  grpcmotor:
+    image: grpcmotorimage:latest
+    ports:
+    - "5004:5004"
+    build: 
+      context: .
+      dockerfile: ./Docker/Desenvolvimento/Grpc.MotorOsrm.Dockerfile
+    networks: 
+       api-roteirizador-network:
+           ipv4_address: 172.20.0.4                  
+   
+  grptomtom:
+    image: grpctomtomimage:latest
+    ports:
+    - "5006:5006"
+    build: 
+      context: .
+      dockerfile: ./Docker/Desenvolvimento/Grpc.TomTom.Dockerfile
+    networks: 
+       api-roteirizador-network:
+           ipv4_address: 172.20.0.6  
+
+networks:
+  api-roteirizador-network:
+     ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+
+
+
+
